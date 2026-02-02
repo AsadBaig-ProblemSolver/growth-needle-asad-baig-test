@@ -1,0 +1,508 @@
+<div class="custom-image-text">
+ <div class="custom-image-text__container">
+  <div class="custom-image-text__container-top">
+    <div class="custom-image-text__container-content">
+    <span class="custom-image-text__container-heading">
+      {{section.settings.heading }}
+    </span>
+
+    <span class="custom-image-text__container-description">
+        {{section.settings.description }}
+    </span>
+
+    <a href="{{section.settings.button_link }}" class="custom-image-text__container-button">
+      {{section.settings.button_text }}
+    </a>
+
+    <span class="custom-image-text__container-caption">
+      {{section.settings.caption }}
+    </span>
+    </div>
+
+    <div class="custom-image-text__container-image">
+        <img
+          src="{{ section.settings.image | image_url }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          width="100%"
+          height="100%"
+        />
+    </div>
+  </div>
+
+  <div class="custom-image-text__container-bottom">
+    {% if section.blocks.size > 0 %}
+    <div class="custom-image-text__reviews-wrapper">
+      <button type="button" class="custom-image-text__reviews-nav custom-image-text__reviews-nav--prev" aria-label="Previous review">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.99481 3.29297C8.00957 3.2931 8.01623 3.2956 8.01923 3.29688C8.02257 3.2983 8.03291 3.303 8.0495 3.31934L12.6794 7.94922V7.9502C12.6969 7.96788 12.704 7.9783 12.7057 7.98145V7.98242C12.7071 7.98567 12.7087 7.99069 12.7087 8.00098C12.7086 8.01093 12.7077 8.01517 12.7067 8.01758L12.7057 8.01855C12.704 8.02156 12.6981 8.03169 12.6823 8.04785L8.04657 12.6797C8.02727 12.6988 8.01507 12.7044 8.01141 12.7061C8.00902 12.7071 8.00477 12.709 7.99481 12.709C7.98962 12.709 7.98694 12.7082 7.98602 12.708H7.98407L7.95673 12.6855L7.95184 12.6807C7.93538 12.6641 7.931 12.6548 7.93036 12.6533C7.92991 12.6523 7.92841 12.6483 7.92841 12.6367C7.92841 12.625 7.92999 12.621 7.93036 12.6201L7.95184 12.5928L12.4772 8.06738H3.13446C3.10988 8.06734 3.0991 8.06356 3.09637 8.0625L3.0827 8.05273L3.07196 8.03906C3.07105 8.03678 3.06708 8.02566 3.06708 8C3.06708 7.97434 3.07105 7.96322 3.07196 7.96094L3.0827 7.94727C3.0906 7.93938 3.09481 7.93812 3.09637 7.9375C3.09909 7.93645 3.10986 7.93266 3.13446 7.93262H12.4772L11.6237 7.07812L7.95575 3.41113C7.93931 3.39469 7.93448 3.3846 7.93329 3.38184C7.93224 3.37938 7.9305 3.37341 7.93036 3.35938C7.93029 3.35249 7.93094 3.34788 7.93134 3.3457C7.93171 3.34371 7.9319 3.34182 7.93231 3.34082C7.93313 3.33894 7.93711 3.33026 7.95184 3.31543L7.95282 3.31445C7.96857 3.29865 7.9775 3.29522 7.97821 3.29492C7.97903 3.29459 7.98044 3.29427 7.98212 3.29395C7.98418 3.29357 7.98822 3.29293 7.99481 3.29297Z" fill="black" stroke="black"/>
+          </svg>          
+      </button>
+      <div class="custom-image-text__container-reviews" id="reviews-slider-{{ section.id }}" role="region" aria-label="Reviews">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <div class="custom-image-text__container-review" data-review-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        <span class="custom-image-text__container-review-heading">
+                {{ block.settings.heading | default: '"Lorem ipsum dolor sit amet"' }}
+              </span>
+
+        <div class="custom-image-text__container-review-bottom">
+                <div class="custom-image-text__container-review-stars" aria-hidden="true">
+                  {% assign stars = block.settings.stars | default: 5 %}
+                  {% for i in (1..5) %}
+                    <span class="custom-image-text__star {% if i <= stars %}is-filled{% endif %}">★</span>
+                  {% endfor %}
+                </div>
+
+                  <div class="custom-image-text__container-review-separator">
+                    <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 5.255V1.77641C7.04201 2.35992 5.93132 2.72257 4.7707 2.8308C4.9023 1.81111 5.32695 0.837217 6.00501 0H2.02991C2.6967 0.838344 3.11111 1.81032 3.23478 2.82599C2.06957 2.71081 0.956695 2.3392 0 1.74582V5.22447C0.95799 4.64096 2.06868 4.27832 3.2293 4.17009C3.09754 5.18947 2.6729 6.16304 1.99499 7H5.97009C5.30344 6.16189 4.88905 5.19022 4.76522 4.17483C5.93043 4.29001 7.04331 4.66162 8 5.255Z" fill="#9333EA"/>
+                    </svg>                      
+                  </div>
+
+                {% if block.settings.text != blank %}
+                  <div class="custom-image-text__container-review-text">{{ block.settings.text }}</div>
+                {% endif %}
+
+                <div class="custom-image-text__container-review-separator">
+                  <svg width="8" height="7" viewBox="0 0 8 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 5.255V1.77641C7.04201 2.35992 5.93132 2.72257 4.7707 2.8308C4.9023 1.81111 5.32695 0.837217 6.00501 0H2.02991C2.6967 0.838344 3.11111 1.81032 3.23478 2.82599C2.06957 2.71081 0.956695 2.3392 0 1.74582V5.22447C0.95799 4.64096 2.06868 4.27832 3.2293 4.17009C3.09754 5.18947 2.6729 6.16304 1.99499 7H5.97009C5.30344 6.16189 4.88905 5.19022 4.76522 4.17483C5.93043 4.29001 7.04331 4.66162 8 5.255Z" fill="#9333EA"/>
+                  </svg>                      
+                </div>
+
+                {% if block.settings.date != blank %}
+                  <div class="custom-image-text__container-review-date">{{ block.settings.date }}</div>
+                {% endif %}
+        </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <button type="button" class="custom-image-text__reviews-nav custom-image-text__reviews-nav--next" aria-label="Next review">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.99481 3.29297C8.00957 3.2931 8.01623 3.2956 8.01923 3.29688C8.02257 3.2983 8.03291 3.303 8.0495 3.31934L12.6794 7.94922V7.9502C12.6969 7.96788 12.704 7.9783 12.7057 7.98145V7.98242C12.7071 7.98567 12.7087 7.99069 12.7087 8.00098C12.7086 8.01093 12.7077 8.01517 12.7067 8.01758L12.7057 8.01855C12.704 8.02156 12.6981 8.03169 12.6823 8.04785L8.04657 12.6797C8.02727 12.6988 8.01507 12.7044 8.01141 12.7061C8.00902 12.7071 8.00477 12.709 7.99481 12.709C7.98962 12.709 7.98694 12.7082 7.98602 12.708H7.98407L7.95673 12.6855L7.95184 12.6807C7.93538 12.6641 7.931 12.6548 7.93036 12.6533C7.92991 12.6523 7.92841 12.6483 7.92841 12.6367C7.92841 12.625 7.92999 12.621 7.93036 12.6201L7.95184 12.5928L12.4772 8.06738H3.13446C3.10988 8.06734 3.0991 8.06356 3.09637 8.0625L3.0827 8.05273L3.07196 8.03906C3.07105 8.03678 3.06708 8.02566 3.06708 8C3.06708 7.97434 3.07105 7.96322 3.07196 7.96094L3.0827 7.94727C3.0906 7.93938 3.09481 7.93812 3.09637 7.9375C3.09909 7.93645 3.10986 7.93266 3.13446 7.93262H12.4772L11.6237 7.07812L7.95575 3.41113C7.93931 3.39469 7.93448 3.3846 7.93329 3.38184C7.93224 3.37938 7.9305 3.37341 7.93036 3.35938C7.93029 3.35249 7.93094 3.34788 7.93134 3.3457C7.93171 3.34371 7.9319 3.34182 7.93231 3.34082C7.93313 3.33894 7.93711 3.33026 7.95184 3.31543L7.95282 3.31445C7.96857 3.29865 7.9775 3.29522 7.97821 3.29492C7.97903 3.29459 7.98044 3.29427 7.98212 3.29395C7.98418 3.29357 7.98822 3.29293 7.99481 3.29297Z" fill="black" stroke="black"/>
+          </svg>          
+      </button>
+      <div class="custom-image-text__reviews-dots" id="reviews-dots-{{ section.id }}" aria-label="Review pagination">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <button type="button" class="custom-image-text__reviews-dot {% if forloop.first %}is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to review {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+ </div>
+</div>
+
+
+<style>
+  .custom-image-text {
+    width: 100%;
+    {% if section.settings.background_image %}
+    background-image: url('{{ section.settings.background_image | image_url }}');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 64px;
+    {% endif %}
+  }
+
+  .custom-image-text__container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .custom-image-text__container-top {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+  }
+
+  .custom-image-text__container-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .custom-image-text__container-heading {
+    background: linear-gradient(90deg, #9333EA 0%, #2563EB 100%);
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+    font-family: Cormorant;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 120%;
+    letter-spacing: -2.5px;
+  }
+
+  .custom-image-text__container-description {
+    font-family: Open Sans;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 129%;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .custom-image-text__container-button {
+    width: 131px;
+    height: 49px;
+    border-width: 1px;
+    background: linear-gradient(90deg, #9333EA 0%, #2563EB 100%);
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 12px 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .custom-image-text__container-caption {
+    font-family: Open Sans;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 129%;
+    text-transform: capitalize;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+    width: max-content;
+  }
+
+  .custom-image-text__container-image {
+    flex: 1;
+    border-top-right-radius: 50px;
+  }
+
+  .custom-image-text__container-image img {
+    width: 100%;
+    height: 100%;
+    border-top-right-radius: 50px;
+  }
+
+  /* Reviews snap scroll slider */
+  .custom-image-text__container-bottom {
+    padding-top: 48px;
+  }
+
+  .custom-image-text__reviews-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+
+  .custom-image-text__container-reviews {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
+  }
+
+  .custom-image-text__container-reviews::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-image-text__container-review {
+    flex: 0 0 100%;
+    min-width: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    padding: 24px 0px 0px 0px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .custom-image-text__container-review-heading {
+    display: block;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 155%;
+    letter-spacing: 0.6px;
+    text-align: center;
+  }
+
+  .custom-image-text__container-review-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 11px;
+    justify-content: center;
+  }
+
+  .custom-image-text__container-review-stars {
+    display: flex;
+    gap: 2px;
+  }
+
+  .custom-image-text__star {
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+  }
+
+  .custom-image-text__star.is-filled {
+    color: #000;
+  }
+
+  .custom-image-text__container-review-separator {
+    font-size: 14px;
+  }
+
+  .custom-image-text__container-review-text {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .custom-image-text__container-review-date {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .custom-image-text__reviews-nav {
+    position: absolute;
+    top: 80%;
+    transform: translateY(-80%);
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(0, 0, 0);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: opacity 0.2s;
+    background: transparent;
+  }
+
+  .custom-image-text__reviews-nav--prev {
+    left: -32px;
+  }
+
+  .custom-image-text__reviews-nav--prev svg {
+    transform: rotate(180deg);
+  }
+
+  .custom-image-text__reviews-nav--next {
+    right: -32px;
+  }
+
+  .custom-image-text__reviews-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .custom-image-text__reviews-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .custom-image-text__reviews-dot.is-active {
+    background: #000;
+  }
+
+  @media screen and (max-width: 786px) {
+    .custom-image-text {
+      padding: 0;
+    }
+    .custom-image-text__container {
+      padding: 48px 16px;
+    }
+
+    .custom-image-text__container-top {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .custom-image-text__container-content {
+      text-align: center;
+      align-items: center;
+    }
+
+    .custom-image-text__container-heading {
+      font-size: 56px;
+    }
+
+    .custom-image-text__container-description {
+        padding-top: 16px;
+    }
+
+    .custom-image-text__reviews-nav {
+      display: none;
+    }
+
+    .custom-image-text__container-review {
+      padding: 0;
+    }
+
+    .custom-image-text__reviews-wrapper {
+      max-width: 100%;
+    }
+
+    .custom-image-text__reviews-dots {
+      margin-top: 12px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const sectionId = '{{ section.id }}';
+    const slider = document.getElementById('reviews-slider-' + sectionId);
+    const dotsContainer = document.getElementById('reviews-dots-' + sectionId);
+    if (!slider || !dotsContainer) return;
+
+    const slides = slider.querySelectorAll('.custom-image-text__container-review');
+    const dots = dotsContainer.querySelectorAll('.custom-image-text__reviews-dot');
+    const prevBtn = slider.closest('.custom-image-text__reviews-wrapper')?.querySelector('.custom-image-text__reviews-nav--prev');
+    const nextBtn = slider.closest('.custom-image-text__reviews-wrapper')?.querySelector('.custom-image-text__reviews-nav--next');
+
+    function getActiveIndex() {
+      const scrollLeft = slider.scrollLeft;
+      const slideWidth = slider.offsetWidth;
+      const index = Math.round(scrollLeft / slideWidth);
+      return Math.min(index, slides.length - 1);
+    }
+
+    function setActiveDot(index) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === index);
+        dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+    }
+
+    function goToSlide(index) {
+      const slideWidth = slider.offsetWidth;
+      slider.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
+      setActiveDot(index);
+    }
+
+    slider.addEventListener('scroll', function() {
+      setActiveDot(getActiveIndex());
+    });
+
+    dots.forEach(function(dot, index) {
+      dot.addEventListener('click', function() {
+        goToSlide(index);
+      });
+    });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function() {
+        const current = getActiveIndex();
+        goToSlide(Math.max(0, current - 1));
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function() {
+        const current = getActiveIndex();
+        goToSlide(Math.min(slides.length - 1, current + 1));
+      });
+    }
+  })();
+</script>
+{% schema %}
+{
+    "name": "Custom Image With Text",
+    "settings": [
+        {
+            "label":"Bacgkround Image",
+            "id": "background_image",
+            "type": "image_picker"
+        },
+        {
+          "label":"Heading",
+          "id": "heading",
+          "type": "text",
+          "default": "Lorem ipsum dolor sit amet"
+        },
+        {
+          "label":"Right Image",
+          "id": "image",
+          "type": "image_picker"
+        },
+        {
+            "label":"Change Image Position",
+            "id": "image_position",
+            "type": "checkbox",
+            "default": false
+        },
+        {
+            "label":"Description",
+            "id": "description",
+            "type": "textarea",
+            "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut."
+          },
+          {
+            "label":"Caption",
+            "id": "caption",
+            "type": "text",
+            "default": "Over 100,000+ Happy customers"
+          },
+          {
+            "label":"Button Text",
+            "id": "button_text",
+            "type": "text",
+            "default": "Shop Now"
+          },
+          {
+            "label":"Button Link",
+            "id": "button_link",
+            "type": "url"
+          }
+    ],
+    "blocks": [
+        {
+            "type": "review",
+            "name": "Review",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "heading",
+                    "label": "Quote / Heading"
+                },
+                {
+                    "type": "range",
+                    "id": "stars",
+                    "min": 1,
+                    "max": 5,
+                    "step": 1,
+                    "default": 5,
+                    "label": "Stars"
+                },
+                {
+                    "type": "text",
+                    "id": "text",
+                    "label": "Author / Text",
+                    "default": "Lorem ipsum"
+                },
+                {
+                    "type": "text",
+                    "id": "date",
+                    "label": "Date",
+                    "default": "22/09/1996"
+                }
+            ]
+        }
+    ],
+    "presets": [
+    {
+        "name": "Custom Image With Text"
+    }
+  ]
+}
+{% endschema %}
